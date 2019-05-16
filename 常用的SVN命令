@@ -1,0 +1,90 @@
+命令行提交代码时，终端统一成UTF-8编码，以免出现不必要的问题。
+
+以下为一些常用命令示例，其他命令可搜寻文件或svn help查看：
+
+1. svn checkout 检出代码
+
+$ svn  co  http://xxx/xxx/xxx  后边是地址。
+
+
+
+2. svn info 显示当前路径的svn信息
+
+$ svn  info
+
+
+
+3. svn st 查看代码修改状态
+
+$ svn  st
+
+显示出可能有以下字母或符号开头的若干行：
+
+M 表示修改过
+
+A 表示新添加到代码控制的
+
+D 表示从版本控制中删除掉的
+
+! 表示删除的文件，未添加到版本控制（意味着svn ci不会成功从服务器代码删除）
+
+? 表示新增的文件，未添加到版本控制（意味着svn ci不会成功增加到服务器代码）
+
+
+
+4. svn diff 查看详细修改
+
+针对svn st列出的改动文件列表，可以通过此命令查看详细修改，例如svn  st有一行显示如 M src/abc.java，表示此文件被改动了，查看改动详细代码命令如下：
+
+$ svn  diff  src/abc.java
+
+
+
+5. svn add 增加代码
+
+新增文件如果使用svn st会发现是以?开头的，如果确定要提交的代码库，则通过svn add增加，例如svn st有一行显示 ? src/new_code.java，确认要上传代码，则命令如下：
+
+$ svn add src/new_code.java
+
+
+
+6. svn del 删除代码
+
+如果需要删除一个代码库中的文件，不能直接手动删除或者使用Linux命令rm删除，需要通过svn命令来删除，否则会通过 svn st查看时候会出现一个!的情况。例如需要删除 src/need_del.java，则命令如下：
+
+$ svn del src/need_del.java
+
+
+
+7. svn update 更新文件
+
+$ svn  up 更新到最新。
+
+$ svn up -r 1234 更新到1234哪个版本。
+
+$ svn up dir -r 1234 更新dir这个目录到1234这个版本。
+
+
+
+8. svn ci 提交代码到代码库
+
+提交前需要确认修改无误，通过 svn st查看没有!或?等异常情况，则提交命令如下：
+
+$ svn  ci  -m  “此处填写注释”
+
+
+
+9. svn blame 查看修改责任人
+
+$svn blame packages/apps/Settings/DashBoardSummary.java  后面写的是要查看的文件。
+
+
+
+10. svn log 显示最近提交的日志
+
+$ svn log -l3 列出最近3次提交的日志。
+
+$ svn log -l3 -v 列出最近3次提交日志的详细文件清单。
+
+通常代码提交后执行svn update ，然后svn log -l1  ->svn.log ,以便于其他后续操作。
+
