@@ -1,0 +1,70 @@
+一：Ubuntu下Apollo的安装
+
+首先需要配置java环境，可自行百度搜索如何配置，此文不做介绍！
+
+下载apache-apollo-1.7.1-unix-distro.tar.gz文件http://mirrors.shu.edu.cn/apache/activemq/activemq-apollo/1.7.1/apache-apollo-1.7.1-unix-distro.tar.gz
+
+命令行输入wgethttp://mirrors.shu.edu.cn/apache/activemq/activemq-apollo/1.7.1/apache-apollo-1.7.1-unix-distro.tar.gz
+
+解压缩文件 tar -zxvfapache-apollo-1.7.1-unix-distro.tar.gz
+
+二：创建broker实例
+
+一个broker实例是一个文件夹，其中包含所有的配置文件及运行时的数据，比如日志和消息数据。
+
+/apache-apollo-1.7.1/bin/apollo create mybroker
+
+创建成功后，在/apache-apollo-1.7.1/bin/目录mybroker下可以看到如下目录
+
+bin———————实例的启动脚本 
+
+etc——————–实例的配置文件 
+
+data——————消息持久化数据 
+
+log———————运行日志 
+
+tmp——————-临时文件
+
+三：Apollo监控页面配置
+
+vi /apache-apollo-1.7.1/bin/mybroker/etc/apollo.xml
+
+修改 
+
+http://127.0.0.1:61680“/> 
+
+https://127.0.0.1:61681“/> 
+
+为 
+
+http://0.0.0.0:61680“/> 
+
+https://0.0.0.0:61681“/>
+
+四：启动broker实例
+
+/apache-apollo-1.7.1/bin/mybroker/bin/apollo-broker run
+
+
+
+启动成功，查看apollo进程 
+
+ps -ef | grep apollo
+
+ljx 15690 15520 0 10:44 pts/24 00:02:03 apollo -ea -server -Xmx1G -XX:+HeapDumpOnOutOfMemoryError -XX:-UseBiasedLocking -Dcom.sun.management.jmxremote -Dapollo.home=/home/ljx/Mqtt/apache-apollo-1.7.1 -Dapollo.base=/home/ljx/Mqtt/apache-apollo-1.7.1/bin/mybroker -classpath /home/ljx/Mqtt/apache-apollo-1.7.1/lib/apollo-boot.jar org.apache.activemq.apollo.boot.Apollo /home/ljx/Mqtt/apache-apollo-1.7.1/bin/mybroker/lib\;/home/ljx/Mqtt/apache-apollo-1.7.1/lib org.apache.activemq.apollo.cli.Apollo run
+
+ljx 17387 17369 0 14:15 pts/1 00:00:00 grep --color=auto apollo
+
+
+
+五：将apollo作为linux service启动
+
+ln -s /apache-apollo-1.7.1/bin/mybroker/bin/apollo-broker-service /etc/init.d/apollo 
+
+chkconfig apollo –add
+
+六：访问Apollo的监控页面http://localhost:61680/
+
+默认用户名、密码为：admin/password 
+
